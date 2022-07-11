@@ -68,7 +68,7 @@ export const userLogin = async (
       },
     });
   }
-  console.log("debugging", email, password, user)
+  // console.log("debugging", email, password, user)
   comparePassword(password, user.password);
   const UserId: string = user.id;
   const accessToken = createToken(UserId);
@@ -84,7 +84,7 @@ export const userSession = async (
   id: string,
 ): Promise<IAuthLoginBodyResponse> => {
   const user = await db.User.findOne({
-    where: { id },
+    where: { id }, raw: true
   });
   if (user == null) {
     customError({
@@ -107,7 +107,7 @@ export const userSession = async (
 export const getUserById = async (
   UserId: string
 ): Promise<IAuthLoginBodyResponse> => {
-  const user = await db.User.findOne({ where: { id: UserId } });
+  const user = await db.User.findOne({ where: { id: UserId }, raw: true });
   if (user == null) {
     return customError(authErrors.AuthJWTError);
   }

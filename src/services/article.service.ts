@@ -16,7 +16,7 @@ export const fetchArticleById = async (
 ): Promise<IArticleAttributes> => {
 
   const article: IArticleAttributes = await db.Article.findOne({
-    where: { id },
+    where: { id }, raw: true
   });
 
   if (article == null) {
@@ -32,7 +32,7 @@ export const updateArticle = async (
   type: string,
   UserId: string
 ): Promise<Number[]> => {
-  const isValid = await db.Article.findOne({ where: { id } });
+  const isValid = await db.Article.findOne({ where: { id }, raw: true });
   if (isValid == null) {
     customError(articleErrors.ArticleInvalid);
   }
@@ -59,7 +59,7 @@ export const deleteArticle = async (
 export const fetchArticleByAuthor = async (
   UserId: string
 ): Promise<IArticlesBodyResponse> => {
-  const response: IArticlesBodyResponse = await db.Article.findAll({ where: { UserId } });
+  const response: IArticlesBodyResponse = await db.Article.findAll({ where: { UserId }, raw: true });
   return response
 }
 
