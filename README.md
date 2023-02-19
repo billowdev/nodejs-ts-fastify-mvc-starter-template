@@ -126,7 +126,11 @@ app.get("/", async () => "SERVER");
 ##### searching on visual studio code extensions
 whenever you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
 
-<img src="https://github.com/path/to/image.png" alt="Image description">
+##### install extension
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
+
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/how-to-use-thunder-client.png" alt="how-to-use-thunder-client">
 
 
 
