@@ -709,19 +709,226 @@ app.listen({port:Number(PORT)}, (err) => {
 	app.log.info(`SERVE ON ${PORT}`)
 })
 })
+```
 
+### 4.6 using nodemon and create the script
+
+#### install nodemon 
+#### nodemon must use in development only because it will restart the app every time when you update the code
+
+```ts
+npm install -D nodemon
+```
+
+or
+```bash
+yarn add -D nodemon
+```
+
+#### add this line below inside paclage.json at "scripts"
+
+```
+"dev": "nodemon index.ts"
+```
+
+#### run the applicaion using script
+
+```bash
+npm run dev
+```
+or
+```
+yarn dev
 ```
 
 ## [Node.js fastify EP.9 Example Articles API](https://youtube.com/@billowdev)
+in this ep will show example article api in get post put patch delete
+routes -> controllers -> services (calling the model sequelize)  -> mysql database 
+### content
+- routes
+- request types
+- controllers
+- services
+- api result of get post put delete
+  
+### 1. routes
+inside routes of article 
+i will create for the 4 routes that calling handler function from the article controller 
+```ts
+import { FastifyInstance } from "fastify"; // import FastifyInstance
+import articleController from './../controllers/article.controller';
+
+const articleRouter = async (app: FastifyInstance) => {
+	// route api app.method("path", {option}, handler)
+	app.get(
+		"/",
+		articleController.handleGetArticle
+	);
+
+	app.get(
+		"/get/:id",
+		articleController.handleGetArticleById
+	);
+
+	app.post(
+		"/create",
+		articleController.handleCreateArticle
+	);
+
+	app.put(
+		"/update/:id",
+		articleController.handleUpdateArticle
+	);
+	
+	app.delete(
+		"/delete/:id",
+		articleController.handleDeleteArticle
+	);
+};
+
+export default articleRouter;
+``` 
+
+### 2. types/article.controller.ts
+
+```ts
+import { FastifyRequest } from "fastify";
+export type RequestWithIdArticle = FastifyRequest<{
+	Params: { id: string };
+}>;
 
 
-## [Node.js fastify EP.10 auth middleware](https://youtube.com/@billowdev)
+export type UpdateArticleRequest = FastifyRequest<{
+	Params: { id: string };
+	Body: {
+		title?: string | undefined;
+		text?: string | undefined;
+		type?: string | undefined;
+	};
+}>;
+
+export type ArticleCreateRequest = FastifyRequest<{
+	Body: {
+		title?: string | undefined;
+		text?: string | undefined;
+		type?: string | undefined;
+	};
+}>;
+```
+
+### 3. controllers
+in article controller i will create handle function for call service
+
+```ts
+import { ArticleCreateRequest, RequestWithIdArticle, UpdateArticleRequest } from "types/articles/article.controller.types";
+import { ArticleAttributes } from "types/articles/article.model.types";
+import { articleService } from "../services";
+
+
+export const handleGetArticle = async () => {
+	return articleService.getArticles()
+}
+
+export const handleGetArticleById = async (req: RequestWithIdArticle) => {
+	const id = req.params.id;
+	return articleService.getOneArticle(id)
+}
+
+export const handleCreateArticle = async (req: ArticleCreateRequest) => {
+	const { title, text, type } = req.body
+	return articleService.createArticle({ title, text, type })
+}
+
+export const handleUpdateArticle = async (req: UpdateArticleRequest) => {
+	const { title, text, type } = req.body
+	return articleService.updateArticle(req.params.id, { title, text, type })
+}
+
+export const handleDeleteArticle = async (req: RequestWithIdArticle) => {
+	return articleService.deleteArticle(req.params.id)
+}
+
+export default {
+	handleGetArticle,
+	handleGetArticleById,
+	handleCreateArticle,
+	handleUpdateArticle,
+	handleDeleteArticle
+}
+```
+
+### 4. services
+in article service i create service that call the sequelize for interact with the database
+
+```ts
+import { ArticleAttributes } from "types/articles/article.model.types";
+import db from "../models";
+const ArticleModel = db.Article
+
+export const getArticles = async (): Promise<ArticleAttributes[]> => {
+	const response = await ArticleModel.findAll();
+	return response
+}
+
+export const getOneArticle = async (id: string): Promise<ArticleAttributes> => {
+	const response: ArticleAttributes = await ArticleModel.findByPk(id)
+	return response
+}
+
+export const createArticle = async (body: ArticleAttributes): Promise<ArticleAttributes> => {
+	const response: ArticleAttributes = await ArticleModel.create(body)
+	return response
+}
+
+export const updateArticle = async (id: string, body: ArticleAttributes) => {
+	const response = await ArticleModel.update({ ...body }, { where: { id } })
+	return response
+}
+
+export const deleteArticle = async (id: string) => {
+	const response = await ArticleModel.destroy({ where: { id } });
+	return response
+}
+
+export default {
+	getArticles,
+	getOneArticle,
+	createArticle,
+	updateArticle,
+	deleteArticle
+}
+```
+
+### 4. api result
+
+#### GET Articles
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/get-all-article.png" alt="get-all-article">
+
+#### GET ONE Articles
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/get-one-article.png" alt="get-one-article">
+
+
+#### CREATE Articles
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/create-article.png" alt="create-article">
+
+#### UPDATE Articles
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/update-article.png" alt="update-article">
+
+#### DELETE Articles
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/delete-article.png" alt="delete-article">
+
+
+<!-- ## [Node.js fastify EP.10 auth middleware](https://youtube.com/@billowdev) -->
 
 
 <!-- =========================== -->
 
 #### dependencies
-
     @fastify/cors
     @fastify/swagger
     bcrypt
