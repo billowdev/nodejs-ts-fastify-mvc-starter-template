@@ -1,11 +1,12 @@
 # nodejs-fastify-mvc-starter-template
+
 nodejs-fastify-mvc-starter-template
 
-#### mrcs = Model-Routes-Controllers-Services
+## mrcs = Model-Routes-Controllers-Services
 
-# initial
+## initial application
 
-```
+```bash
 npm init -y
 ```
 
@@ -13,40 +14,45 @@ npm init -y
 
 #### install yarn at global
 
-```
+```bash
 npm install -g yarn
 ```
 
 ##### then when you want to install package by using 'yarn' package manager
 
-###### 'npm install' === 'yarn add' 
-```
+###### 'npm install' === 'yarn add'
+
+```bash
 yarn add
 ```
-###### 'npm install -D' === 'yarn add -D' 
-```
+
+###### 'npm install -D' === 'yarn add -D'
+
+```bash
 yarn add -D
 ```
 
-###### 'npm run' === 'yarn' 
-```
+###### 'npm run' === 'yarn'
+
+```bash
 yarn
 ```
 
 ## install ts-node and typescript
-```
+
+```bash
 npm install --save-dev ts-node @types/node typescript
 ```
 
-
 ### create the tscofig file
-```
+
+```bash
 npx tsc --init
 ```
 
-##### tsconfig.json
+#### tsconfig.json
 
-```js
+```json
 {
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig to read more about this file */
@@ -77,17 +83,17 @@ npx tsc --init
 }
 ```
 
-# create the app
+## create the app
 
-## install fastify
+### install fastify
 
-```
+```bash
 npm install fastify
 ```
 
-## create index.ts in root folder
+### create index.ts in root folder
 
-```
+```bash
 index.ts
 ```
 
@@ -95,22 +101,25 @@ index.ts
 
 ### 1. import fastify
 
-```
+```ts
 import fastify from "fastify";
 ```
 
 ### 2. create the app
-```
+
+```ts
 const app = fastify()
 ```
 
 ### 3. create the first endpoint or route for your api
-```
+
+```ts
 app.get("/", async () => "SERVER");
 ```
 
 ### 4. add port and run app using app.listen
-```
+
+```ts
     const PORT = 5000
     app.listen({port:Number(PORT)}, (err) => {
         if (err) {
@@ -122,26 +131,26 @@ app.get("/", async () => "SERVER");
 ```
 
 ### 5. run your api type the script below in your terminal
-```
+
+```bash
 ts-node index.ts
 ```
 
-##### it should be showing the message "SERVE ON 5000"
-
-
+#### it should be showing the message "SERVE ON 5000"
 
 ### 6. make log it looking good by using log options 
 
-##### 6.1 add the options for our app
-```
+#### 6.1 add the options for our app
+
+```ts
 const app = fastify({
 	logger: true
 })
 ```
 
-##### 6.2 use this code below replace code from the 4.
+#### 6.2 use this code below replace code from the 4.
 
-```
+```ts
     const PORT = 5000
 	app.listen({port:Number(PORT)}, (err) => {
 		if (err) {
@@ -152,7 +161,8 @@ const app = fastify({
 	})
 ```
 
-###### 6.3 then your log will show like below
+##### 6.3 then your log will show like below
+
 ```bash
 {"level":30,"time":1676779096246,"pid":25344,"hostname":"billo","msg":"Server listening at http://[::1]:5000"}
 {"level":30,"time":1676779096248,"pid":25344,"hostname":"billo","msg":"Server listening at http://127.0.0.1:5000"}
@@ -161,20 +171,20 @@ const app = fastify({
 
 ### 7. testing your api using thunder client
 
-##### searching on visual studio code extensions
-how ever you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
+#### searching on visual studio code extensions
+
+however you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
 
 ##### install extension
-<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
 
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/how-to-use-thunder-client.png" alt="how-to-use-thunder-client">
 
 
-
-
 ##### 8. so the first time code in index.ts file will be
-```
+
+```ts
 import fastify from "fastify";
 
 const app = fastify({
@@ -193,6 +203,119 @@ app.listen({port:Number(PORT)}, (err) => {
 })
 ```
 
+## New directory src and controllers routes services etc following below
+
+### 1. seperarte app to new file 
+
+#### 1.1 split logic in index.ts to src/app.ts
+
+##### code in app.ts
+
+```ts
+import fastify, { FastifyServerOptions } from "fastify";
+
+const App = (options: FastifyServerOptions) => {
+	const app = fastify(options)
+	
+	app.get("/", async () => "SERVER");
+	return app
+}
+export default App
+```
+
+##### code in index.ts
+
+```ts
+import App from "./src/app";
+
+const app = App({
+	logger: true
+})
+const PORT = 5000
+app.listen({port:Number(PORT)}, (err) => {
+	if (err) {
+		app.log.error(err);
+		process.exit(1)
+	}
+	app.log.info(`SERVE ON ${PORT}`)
+})
+```
+
+### 2. /src/routes
+
+#### 2.1 create routes in another file src/routes i will example for src/routes/article.route.ts
+
+##### 1) new director 'routes' and create article.route.ts
+
+```
+article.route.ts
+```
+
+###### create route for articleRouter
+
+```ts
+import { FastifyInstance } from "fastify"; // import FastifyInstance
+
+const articleRouter = async (app: FastifyInstance) => {
+	// route api app.method("path", {option}, handler)
+	// create .get route endpoint for article route that '/'
+	// mockup data
+	const article = {
+		id: "1",
+		name: "node.js fastify",
+		desc: "going fasting with jumping course 0 to 100 ><"
+	}
+	app.get(
+		"/",
+		// function handler: RouteHandlerMethod<RawServerDefau lt, IncomingMessage, ServerResponse<IncomingMessage>, RouteGenericInterface, unknown, FastifySchema, FastifyTypeProviderDefault, FastifyBaseLogger>):
+		() => {
+			return {
+				// mockup data
+				articles: [
+					article
+				]
+			}
+		}
+	);
+};
+
+export default articleRouter;
+```
+
+##### 2) create index.ts inside route for export file
+
+```ts
+import articleRouter from "./article.route";
+
+export { articleRouter};
+``` 
+
+#### 2.2 /src/app 
+
+##### app.ts file import article route and register the router with prefix "/api/v1/articles"
+
+```ts
+import fastify, { FastifyServerOptions } from "fastify";
+import {articleRouter} from "./routes";
+
+const App = (options: FastifyServerOptions) => {
+	const app = fastify(options)
+	
+	app.get("/", async () => "SERVER");
+	app.register(articleRouter, { prefix: "/api/v1/articles" });
+	return app
+}
+export default App
+```
+
+#### 2.3 restart the app by cancel terminal using CTRL + C command and ts-node index.ts
+
+#### 2.4 result api in thunder client
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/api-v1-aticles-get.png" alt="api-v1-aticles-get">
+
+
+### 3. /src/controller (spliting handler function to controller file)
 
 
 
