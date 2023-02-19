@@ -117,14 +117,52 @@ app.get("/", async () => "SERVER");
             console.error(err)
             process.exit(1)
         }
-        console.log("SERVE ON 5000")
+        console.log(`SERVE ON ${PORT}`)
     })
 ```
 
-### testing your api using thunder client
+### 5. run your api type the script below in your terminal
+```
+ts-node index.ts
+```
+
+##### it should be showing the message "SERVE ON 5000"
+
+
+
+### 6. make log it looking good by using log options 
+
+##### 6.1 add the options for our app
+```
+const app = fastify({
+	logger: true
+})
+```
+
+##### 6.2 use this code below replace code from the 4.
+
+```
+    const PORT = 5000
+	app.listen({port:Number(PORT)}, (err) => {
+		if (err) {
+			app.log.error(err);
+			process.exit(1)
+		}
+		app.log.info(`SERVE ON ${PORT}`)
+	})
+```
+
+###### 6.3 then your log will show like below
+```bash
+{"level":30,"time":1676779096246,"pid":25344,"hostname":"billo","msg":"Server listening at http://[::1]:5000"}
+{"level":30,"time":1676779096248,"pid":25344,"hostname":"billo","msg":"Server listening at http://127.0.0.1:5000"}
+{"level":30,"time":1676779096248,"pid":25344,"hostname":"billo","msg":"SERVE ON 5000"}
+```
+
+### 7. testing your api using thunder client
 
 ##### searching on visual studio code extensions
-whenever you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
+how ever you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
 
 ##### install extension
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
@@ -134,24 +172,25 @@ whenever you can use another solution for test your api like postman or if api y
 
 
 
-### 5. make log it looking good by using log options
-```
-    const PORT = 5000
-	app.listen({port:Number(PORT)}, (err) => {
-		if (err) {
-			app.log.error(err);
-			process.exit(1)
-		}
-		app.log.info(`server listening on ${PORT}`)
-	})
-```
 
-
-##### so the first time code in index.ts file will be
+##### 8. so the first time code in index.ts file will be
 ```
 import fastify from "fastify";
 
-const app = fastify()
+const app = fastify({
+	logger: true
+})
+
+app.get("/", async () => "SERVER");
+
+const PORT = 5000
+app.listen({port:Number(PORT)}, (err) => {
+	if (err) {
+		app.log.error(err);
+		process.exit(1)
+	}
+	app.log.info(`SERVE ON ${PORT}`)
+})
 ```
 
 
