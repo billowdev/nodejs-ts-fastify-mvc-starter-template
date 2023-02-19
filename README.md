@@ -3,13 +3,15 @@ nodejs-fastify-mvc-starter-template
 
 #### mrcs = Model-Routes-Controllers-Services
 
-## initial
+# initial
+
 ```
 npm init -y
 ```
-#### if you want to use yarn
 
-##### install yarn at global
+### if you want to use yarn
+
+#### install yarn at global
 
 ```
 npm install -g yarn
@@ -31,14 +33,13 @@ yarn add -D
 yarn
 ```
 
-##### install ts-node @types/node and typescript
-
+## install ts-node and typescript
 ```
-npm install -D ts-node @types/node typescript
+npm install --save-dev ts-node @types/node typescript
 ```
 
 
-#### create the tscofig file
+### create the tscofig file
 ```
 npx tsc --init
 ```
@@ -76,19 +77,80 @@ npx tsc --init
 }
 ```
 
-## create the app
+# create the app
 
-#### install fastify
+## install fastify
 
 ```
 npm install fastify
 ```
 
-#### create index.ts in root folder
+## create index.ts in root folder
 
 ```
 index.ts
 ```
+
+## trying the code below for your first api
+
+### 1. import fastify
+
+```
+import fastify from "fastify";
+```
+
+### 2. create the app
+```
+const app = fastify()
+```
+
+### 3. create the first endpoint or route for your api
+```
+app.get("/", async () => "SERVER");
+```
+
+### 4. add port and run app using app.listen
+```
+    const PORT = 5000
+    app.listen({port:Number(PORT)}, (err) => {
+        if (err) {
+            console.error(err)
+            process.exit(1)
+        }
+        console.log("SERVE ON 5000")
+    })
+```
+
+### testing your api using thunder client
+
+##### searching on visual studio code extensions
+whenever you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
+
+<img src="https://github.com/path/to/image.png" alt="Image description">
+
+
+
+### 5. make log it looking good by using log options
+```
+    const PORT = 5000
+	app.listen({port:Number(PORT)}, (err) => {
+		if (err) {
+			app.log.error(err);
+			process.exit(1)
+		}
+		app.log.info(`server listening on ${PORT}`)
+	})
+```
+
+
+##### so the first time code in index.ts file will be
+```
+import fastify from "fastify";
+
+const app = fastify()
+```
+
+
 
 
 <!-- =========================== -->
