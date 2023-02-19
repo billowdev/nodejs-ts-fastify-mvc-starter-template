@@ -1,13 +1,13 @@
 import { FastifyRequest } from "fastify";
 
-export type IAuthLoginBodyRequest = FastifyRequest<{
+export type AuthLoginBodyRequest = FastifyRequest<{
   Body: {
     email: string;
     password: string;
   };
 }>;
 
-export type IAuthRegisterBodyRequest = FastifyRequest<{
+export type AuthRegisterBodyRequest = FastifyRequest<{
   Body: {
     email: string;
     password: string;
@@ -17,7 +17,7 @@ export type IAuthRegisterBodyRequest = FastifyRequest<{
   };
 }>;
 
-export interface IAuthLoginBodyResponse {
+export interface AuthLoginBodyResponse {
   id: string;
   email: string;
   name: string;

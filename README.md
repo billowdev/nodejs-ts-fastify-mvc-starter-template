@@ -1,10 +1,15 @@
 # nodejs-fastify-mvc-starter-template
 
-nodejs-fastify-mvc-starter-template
-
 ## mrcs = Model-Routes-Controllers-Services
 
-## initial application
+# BillowDev Youtube
+
+
+# [How to Install Git and using GitHub](https://youtube.com/@billowdev)
+# [How to Install Node.js and VS code](https://youtube.com/@billowdev)
+
+
+# [Node.js fastify EP.1 intro - initial application](https://youtube.com/@billowdev)
 
 ```bash
 npm init -y
@@ -42,6 +47,10 @@ yarn
 
 ```bash
 npm install --save-dev ts-node @types/node typescript
+```
+or
+```bash
+yarn add -D ts-node @types/node typescript
 ```
 
 ### create the tscofig file
@@ -89,6 +98,10 @@ npx tsc --init
 
 ```bash
 npm install fastify
+```
+or
+```bash
+yarn add fastify
 ```
 
 ### create index.ts in root folder
@@ -175,7 +188,9 @@ const app = fastify({
 
 however you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
 
-##### install extension
+# [Node.js fastify EP.2 thunder client](https://youtube.com/@billowdev)
+
+## install extension
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
 
@@ -205,7 +220,7 @@ app.listen({port:Number(PORT)}, (err) => {
 
 ## New directory src and controllers routes services etc following below
 
-### 1. seperarte app to new file 
+# [Node.js fastify EP.3 app.ts](https://youtube.com/@billowdev)
 
 #### 1.1 split logic in index.ts to src/app.ts
 
@@ -241,7 +256,7 @@ app.listen({port:Number(PORT)}, (err) => {
 })
 ```
 
-### 2. /src/routes
+# [Node.js fastify EP.4 Routes](https://youtube.com/@billowdev)
 
 #### 2.1 create routes in another file src/routes i will example for src/routes/article.route.ts
 
@@ -315,8 +330,260 @@ export default App
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/api-v1-aticles-get.png" alt="api-v1-aticles-get">
 
 
-### 3. /src/controller (spliting handler function to controller file)
+# [Node.js fastify EP.5 Controllers](https://youtube.com/@billowdev)
 
+## 1. controllers/article.controller.ts
+
+```ts
+export const handleGetArticle = () => {
+	// mockup data
+	const article = {
+		id: "1",
+		name: "node.js fastify",
+		desc: "going fasting with jumping course 0 to 100 ><"
+	}
+	return {
+		// mockup data
+		articles: [
+			article
+		]
+	}
+}
+export default {
+	handleGetArticle
+}
+```
+
+## 2. controllers/index.ts
+
+```ts
+import articlesController from "./article.controller";
+export { articlesController };
+
+```
+
+## 3. routes/article.route
+
+```ts
+import { FastifyInstance } from "fastify"; // import FastifyInstance
+import articleController from './../controllers/article.controller';
+
+const articleRouter = async (app: FastifyInstance) => {
+	// route api app.method("path", {option}, handler)
+	app.get(
+		"/",
+		// function handler
+		articleController.handleGetArticle
+	);
+};
+
+export default articleRouter;
+```
+
+# [Node.js fastify EP.6 Services](https://youtube.com/@billowdev)
+
+## 1. services/article.service.ts
+
+```ts
+export const getArticles = () => {
+	const data = {
+		id: "1",
+		name: "node.js fastify",
+		desc: "going fasting with jumping course 0 to 100 ><"
+	}
+
+	return { response: data }
+}
+
+export default {
+	getArticles
+}
+```
+
+## 2. services/index.ts
+
+```ts
+import articleService from "./article.service";
+export { articleService };
+```
+
+## 3. controllers/article.controller
+
+```ts
+import { articleService } from "../services";
+
+export const handleGetArticle = () => {
+	return articleService.getArticles()
+}
+
+export default {
+	handleGetArticle
+}
+```
+
+# [Node.js fastify EP.7 MySQL Database](https://youtube.com/@billowdev)
+
+## 1. install laragon following this -> [Youtube](https://youtube.com/@billowdev)
+
+## 2. start server laragon
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/laragon-start.png" alt="laragon-start">
+
+## 2. open mysql 
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/mysql-open.png" alt="mysql-open">
+
+## 3. click on database
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/click-database.png" alt="click-database">
+
+## 4. create database
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/create-database.png" alt="create-database">
+
+## 5. node_fastify_db
+
+<img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/node_fastify_db.png" alt="node_fastify_db">
+
+# [Node.js fastify EP.8 Sequelize](https://youtube.com/@billowdev)
+
+## 1. install sequelize dotenv and mysql2
+- for sequelize is orm using to interact with database that base on model that our declare
+- for dotenv is package for using environment or .env file that our put variable to keep the secret thing like a username password of database
+- for mysql2 is require when our use MySQL if using postgres will be pg and pg-hstore etc. for another database should back to document of that software
+
+```bash
+npm install sequelize dotenv and mysql2
+```
+or
+```
+yarn add sequelize dotenv and mysql2
+```
+
+## 2. env file
+the username of mysql laragon by default that is root and password=""
+i seperate that env for config database in difference env -> dev, prod, test
+
+```.env
+NODE_ENV=development
+
+DB_USERNAME_DEV=root
+DB_PASSWORD_DEV=""
+DB_DATABASE_DEV=node_fastify_db
+DB_HOST_DEV=localhost
+
+DB_USERNAME_PROD=root
+DB_PASSWORD_PROD=""
+DB_DATABASE_PROD=node_fastify_db_production
+DB_HOST_PROD=localhost
+
+DB_USERNAME_TEST=root
+DB_PASSWORD_TEST=""
+DB_DATABASE_TEST=node_fastify_db_test
+DB_HOST_TEST=localhost
+
+DB_DIALECT=mysql
+
+```
+
+## 2. config file and db config file
+the first of all we will import dotenv for using .env file
+then we create config for create config variable that get value from .env file
+```ts
+import dotenv from "dotenv";
+dotenv.config();
+
+const config = {
+  env: process.env.NODE_ENV || "development",
+  port: process.env.PORT || 5000,
+  database: {
+    dev: {
+      username: process.env.DB_USERNAME_DEV,
+      password: process.env.DB_PASSWORD_DEV,
+      name: process.env.DB_DATABASE_DEV,
+      host: process.env.DB_HOST_DEV,
+    },
+    production:{
+      username: process.env.DB_USERNAME_PROD,
+      password: process.env.DB_PASSWORD_PROD,
+      name: process.env.DB_DATABASE_PROD,
+      host: process.env.DB_HOST_PROD,
+    },
+    test: {
+      username: process.env.DB_USERNAME_TEST,
+      password: process.env.DB_PASSWORD_TEST,
+      name: process.env.DB_DATABASE_TEST,
+      host: process.env.DB_HOST_TEST,
+    },
+    dialect: process.env.DB_DIALECT,
+  },
+};
+
+export default config;
+
+```
+
+### config/db.config
+
+```ts
+import config from "./config"; // this is important!
+
+module.exports = {
+  development: {
+    username: config.database.dev.username,
+    password: config.database.dev.password,
+    database: config.database.dev.name,
+    host: config.database.dev.host,
+    dialect: config.database.dialect,
+  },
+  test: {
+    username: config.database.test.username,
+    password: config.database.test.password,
+    database: config.database.test.name,
+    host: config.database.test.host,
+    dialect: config.database.dialect,
+  },
+  production: {
+    username: config.database.production.username,
+    password: config.database.production.password,
+    database: config.database.production.name,
+    host: config.database.production.host,
+    dialect: config.database.dialect,
+  },
+};
+```
+
+## 3. models
+
+### 3.1 create the types folders
+
+### 3.2 types/articles/article.model.types.ts
+```ts
+export interface ArticleAttributes {
+  id?: string;
+  title?: string;
+  text?: string;
+  type?: string;
+  UserId?: string;
+  createdAt?: Date;
+  updatedAt?: Date;
+}
+```
+
+### 3.3 create "models" folder
+
+```ts
+
+```
+
+
+### 3.4 /models/article.model.ts
+
+
+# [Node.js fastify EP.9 Example Articles API](https://youtube.com/@billowdev)
+
+
+# [Node.js fastify EP.10 auth middleware](https://youtube.com/@billowdev)
 
 
 <!-- =========================== -->
@@ -334,8 +601,12 @@ export default App
     pg-hstore
     sequelize
 
-```
+```bash
 npm install @fastify/cors @fastify/swagger bcrypt dotenv fastify fastify-cors jsonwebtoken pg pg-hstore sequelize
+```
+or 
+```bash
+yarn add @fastify/cors @fastify/swagger bcrypt dotenv fastify fastify-cors jsonwebtoken pg pg-hstore sequelize
 ```
 
 
@@ -358,6 +629,18 @@ npm install @fastify/cors @fastify/swagger bcrypt dotenv fastify fastify-cors js
 
 ```
 npm install -D @types/bcrypt @types/jsonwebtoken @types/node @types/sequelize @typescript-eslint/eslint-plugin 
+```
+
+```
 npm install -D @typescript-eslint/parser eslint-config-prettier eslint-plugin-prettier nodemon pino-pretty ts-node typescript
 ```
+
+```bash
+yarn add -D @types/bcrypt @types/jsonwebtoken @types/node @types/sequelize @typescript-eslint/eslint-plugin 
+```
+
+```bash
+yarn add -D @typescript-eslint/parser eslint-config-prettier eslint-plugin-prettier nodemon pino-pretty ts-node typescript
+```
+
 

@@ -1,10 +1,10 @@
 "use strict";
 
 import { Model, UUIDV4 } from "sequelize";
-import { IUserAttributes } from "../interfaces/types/models/user.model.types";
+import { UserAttributes } from "../types/models/user.model.types";
 
 module.exports = (sequelize: any, DataTypes: any) => {
-  class User extends Model<IUserAttributes> implements IUserAttributes {
+  class User extends Model<UserAttributes> implements UserAttributes {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.

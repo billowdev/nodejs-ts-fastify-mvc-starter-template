@@ -1,12 +1,12 @@
 import { FastifyRequest } from "fastify";
-import { IAuthLoginBodyResponse } from "../interfaces/types/controllers/auth.controller.types";
+import { AuthLoginBodyResponse } from "../types/controllers/auth.controller.types";
 import { userService } from "../services";
 
 export const handleUserProfile = async (
   request: FastifyRequest
-): Promise<IAuthLoginBodyResponse> => {
+): Promise<AuthLoginBodyResponse> => {
   const { UserId } = request;
-  const user: IAuthLoginBodyResponse = await userService.getUserById(UserId!);
+  const user: AuthLoginBodyResponse = await userService.getUserById(UserId!);
   return user;
 };
 

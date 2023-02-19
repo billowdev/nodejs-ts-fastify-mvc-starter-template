@@ -1,4 +1,4 @@
-export interface IArticleAttributes {
+export interface ArticleAttributes {
   id?: string;
   title?: string;
   text?: string;

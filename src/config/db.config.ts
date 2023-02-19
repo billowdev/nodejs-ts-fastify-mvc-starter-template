@@ -2,24 +2,24 @@ import config from "./config"; // this is important!
 
 module.exports = {
   development: {
-    username: config.database.username,
-    password: config.database.password,
-    database: config.database.dbDevelopment,
-    host: config.database.host,
+    username: config.database.dev.username,
+    password: config.database.dev.password,
+    database: config.database.dev.name,
+    host: config.database.dev.host,
     dialect: config.database.dialect,
   },
   test: {
-    username: config.database.username,
-    password: config.database.password,
-    database: config.database.dbTest,
-    host: config.database.host,
+    username: config.database.test.username,
+    password: config.database.test.password,
+    database: config.database.test.name,
+    host: config.database.test.host,
     dialect: config.database.dialect,
   },
   production: {
-    username: config.database.username,
-    password: config.database.password,
-    database: config.database.dbProduction,
-    host: config.database.host,
+    username: config.database.production.username,
+    password: config.database.production.password,
+    database: config.database.production.name,
+    host: config.database.production.host,
     dialect: config.database.dialect,
   },
 };

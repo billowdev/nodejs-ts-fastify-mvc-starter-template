@@ -1,14 +1,14 @@
 "use strict";
 import * as Sequelize from "sequelize";
 import { Model, UUIDV4 } from "sequelize";
-import { IArticleAttributes } from "../interfaces/types/models/article.model.types";
+import { ArticleAttributes } from "../types/models/article.model.types";
 
-export interface IArticleInstance extends IArticleAttributes {}
+// export interface IArticleInstance extends ArticleAttributes {}
 
 module.exports = (sequelize: any, DataTypes: any) => {
   class Article
-    extends Model<IArticleAttributes>
-    implements IArticleAttributes
+    extends Model<ArticleAttributes>
+    implements ArticleAttributes
   {
     /**
      * Helper method for defining associations.

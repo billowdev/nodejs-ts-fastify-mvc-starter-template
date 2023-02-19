@@ -1,24 +1,24 @@
 import { FastifyRequest } from "fastify";
 import { userService } from "../services";
 import {
-  IAuthLoginBodyRequest,
-  IAuthRegisterBodyRequest,
-} from "../interfaces/types/controllers/auth.controller.types";
+  AuthLoginBodyRequest,
+  AuthRegisterBodyRequest,
+} from "../types/controllers/auth.controller.types";
 import authErrors from "../utils/errors/auth.errors";
 import customError from "../utils/customError";
-import { IUserAttributes } from "../interfaces/types/models/user.model.types";
+import { UserAttributes } from "../types/models/user.model.types";
 
-export const handleLogin = async (request: IAuthLoginBodyRequest) => {
+export const handleLogin = async (request: AuthLoginBodyRequest) => {
   const { email, password } = request.body;
   const login = await userService.userLogin(email, password);
   return login;
 };
 
 export const handleRegister = async (
-  request: IAuthRegisterBodyRequest
-): Promise<IUserAttributes> => {
+  request: AuthRegisterBodyRequest
+): Promise<UserAttributes> => {
   const { email, password, name, surname, phone } = request.body;
-  const user: IUserAttributes = await userService
+  const user: UserAttributes = await userService
     .createUser({
       email,
       password,

@@ -1,10 +1,10 @@
 import bcrypt from "bcrypt";
 import { sign } from "jsonwebtoken";
-import { IUserAttributes } from "../interfaces/types/models/user.model.types";
+import { UserAttributes } from "../types/models/user.model.types";
 import customError from "../utils/customError";
 import authErrors from "../utils/errors/auth.errors";
 import config from "../config/config";
-import { IAuthLoginBodyResponse } from "../interfaces/types/controllers/auth.controller.types";
+import { AuthLoginBodyResponse } from "../types/controllers/auth.controller.types";
 import db from "../models";
 
 const passwordHashing = (password: string): string => {
@@ -31,10 +31,10 @@ const createToken = (UserId: string): string => {
 
 const mapUserResponseObject = (
   userId: string,
-  user: IUserAttributes,
+  user: UserAttributes,
   accessToken?: string
-): IAuthLoginBodyResponse => {
-  const response: IAuthLoginBodyResponse = {
+): AuthLoginBodyResponse => {
+  const response: AuthLoginBodyResponse = {
     id: userId,
     email: user.email,
     name: user.name || "",
@@ -46,17 +46,17 @@ const mapUserResponseObject = (
 };
 
 export const createUser = async (
-  data: IUserAttributes
-): Promise<IUserAttributes> => {
+  data: UserAttributes
+): Promise<UserAttributes> => {
   data.password = passwordHashing(data.password);
-  const user: IUserAttributes = await db.User.create(data);
+  const user: UserAttributes = await db.User.create(data);
   return user;
 };
 
 export const userLogin = async (
   email: string,
   password: string
-): Promise<IAuthLoginBodyResponse> => {
+): Promise<AuthLoginBodyResponse> => {
   const user = await db.User.findOne({
     where: { email }, raw: true
   });
@@ -72,7 +72,7 @@ export const userLogin = async (
   comparePassword(password, user.password);
   const UserId: string = user.id;
   const accessToken = createToken(UserId);
-  const response: IAuthLoginBodyResponse = mapUserResponseObject(
+  const response: AuthLoginBodyResponse = mapUserResponseObject(
     UserId,
     user,
     accessToken
@@ -82,7 +82,7 @@ export const userLogin = async (
 
 export const userSession = async (
   id: string,
-): Promise<IAuthLoginBodyResponse> => {
+): Promise<AuthLoginBodyResponse> => {
   const user = await db.User.findOne({
     where: { id }, raw: true
   });
@@ -96,7 +96,7 @@ export const userSession = async (
   }
   const UserId: string = id;
   const accessToken = createToken(UserId);
-  const response: IAuthLoginBodyResponse = mapUserResponseObject(
+  const response: AuthLoginBodyResponse = mapUserResponseObject(
     UserId,
     user,
     accessToken
@@ -106,12 +106,12 @@ export const userSession = async (
 
 export const getUserById = async (
   UserId: string
-): Promise<IAuthLoginBodyResponse> => {
+): Promise<AuthLoginBodyResponse> => {
   const user = await db.User.findOne({ where: { id: UserId }, raw: true });
   if (user == null) {
     return customError(authErrors.AuthJWTError);
   }
-  const response: IAuthLoginBodyResponse = mapUserResponseObject(UserId, user);
+  const response: AuthLoginBodyResponse = mapUserResponseObject(UserId, user);
   return response;
 };
 

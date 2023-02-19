@@ -2,7 +2,7 @@ import { FastifyRequest } from "fastify";
 import { verify } from "jsonwebtoken";
 import customError from "../utils/customError";
 import config from "../config/config";
-import { ITokenDecoded } from "../interfaces/types/middlewares/auth.middleware.types";
+import { TokenDecoded } from "../types/middlewares/auth.middleware.types";
 import authErrors from "../utils/errors/auth.errors";
 
 export const validateHeadersAuth = (req: FastifyRequest): string => {
@@ -22,7 +22,7 @@ export const verifyToken = async (
 ): Promise<boolean> => {
   try {
     const token = validateHeadersAuth(request);
-    const decoded: ITokenDecoded = Object(
+    const decoded: TokenDecoded = Object(
       verify(token, config.webtoken as string)
     );
 

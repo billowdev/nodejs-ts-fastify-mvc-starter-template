@@ -1,5 +1,4 @@
 import { FastifyRequest } from "fastify";
-import { IArticleAttributes } from "../models/article.model.types";
 
 export type ArticleCreateBodyRequest = FastifyRequest<{
   Body: {
@@ -31,17 +30,17 @@ export type ArticleDeleteRequest = FastifyRequest<{
 
 
 
-export interface IArticlesBodyResponse {
+export interface ArticlesBodyResponse {
   id: string
   title: string
   text: string
   createdAt: string
   updatedAt: string
   UserId: string
-  User?: IArticleAuthor
+  User?: ArticleAuthor
 }
 
-export interface IArticleAuthor {
+export interface ArticleAuthor {
   id: string
   name: string
   surname: string
