@@ -2,14 +2,14 @@
 
 ## mrcs = Model-Routes-Controllers-Services
 
-# BillowDev Youtube
+## BillowDev Youtube
 
 
-# [How to Install Git and using GitHub](https://youtube.com/@billowdev)
-# [How to Install Node.js and VS code](https://youtube.com/@billowdev)
+## [How to Install Git and using GitHub](https://youtube.com/@billowdev)
+## [How to Install Node.js and VS code](https://youtube.com/@billowdev)
 
 
-# [Node.js fastify EP.1 intro - initial application](https://youtube.com/@billowdev)
+## [Node.js fastify EP.1 intro - initial application](https://youtube.com/@billowdev)
 
 ```bash
 npm init -y
@@ -43,7 +43,7 @@ yarn add -D
 yarn
 ```
 
-## install ts-node and typescript
+### install ts-node and typescript
 
 ```bash
 npm install --save-dev ts-node @types/node typescript
@@ -92,7 +92,7 @@ npx tsc --init
 }
 ```
 
-## create the app
+### create the app
 
 ### install fastify
 
@@ -110,7 +110,7 @@ yarn add fastify
 index.ts
 ```
 
-## trying the code below for your first api
+### trying the code below for your first api
 
 ### 1. import fastify
 
@@ -188,16 +188,16 @@ const app = fastify({
 
 however you can use another solution for test your api like postman or if api you is get method you also use browser for that but i prefer using thunder client or postman or insomnia because it can use another http method such as GET POST PUT PATCH DELETE etc.
 
-# [Node.js fastify EP.2 thunder client](https://youtube.com/@billowdev)
+## [Node.js fastify EP.2 thunder client](https://youtube.com/@billowdev)
 
-## install extension
+### install extension
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/thunder-client.png" alt="thunder-client">
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/how-to-use-thunder-client.png" alt="how-to-use-thunder-client">
 
 
-##### 8. so the first time code in index.ts file will be
+#### 8. so the first time code in index.ts file will be
 
 ```ts
 import fastify from "fastify";
@@ -220,11 +220,11 @@ app.listen({port:Number(PORT)}, (err) => {
 
 ## New directory src and controllers routes services etc following below
 
-# [Node.js fastify EP.3 app.ts](https://youtube.com/@billowdev)
+## [Node.js fastify EP.3 app.ts](https://youtube.com/@billowdev)
 
-#### 1.1 split logic in index.ts to src/app.ts
+### 1.1 split logic in index.ts to src/app.ts
 
-##### code in app.ts
+#### code in app.ts
 
 ```ts
 import fastify, { FastifyServerOptions } from "fastify";
@@ -256,17 +256,17 @@ app.listen({port:Number(PORT)}, (err) => {
 })
 ```
 
-# [Node.js fastify EP.4 Routes](https://youtube.com/@billowdev)
+## [Node.js fastify EP.4 Routes](https://youtube.com/@billowdev)
 
-#### 2.1 create routes in another file src/routes i will example for src/routes/article.route.ts
+### 2.1 create routes in another file src/routes i will example for src/routes/article.route.ts
 
-##### 1) new director 'routes' and create article.route.ts
+#### 1) new director 'routes' and create article.route.ts
 
 ```
 article.route.ts
 ```
 
-###### create route for articleRouter
+##### create route for articleRouter
 
 ```ts
 import { FastifyInstance } from "fastify"; // import FastifyInstance
@@ -330,9 +330,9 @@ export default App
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/api-v1-aticles-get.png" alt="api-v1-aticles-get">
 
 
-# [Node.js fastify EP.5 Controllers](https://youtube.com/@billowdev)
+## [Node.js fastify EP.5 Controllers](https://youtube.com/@billowdev)
 
-## 1. controllers/article.controller.ts
+### 1. controllers/article.controller.ts
 
 ```ts
 export const handleGetArticle = () => {
@@ -354,7 +354,7 @@ export default {
 }
 ```
 
-## 2. controllers/index.ts
+### 2. controllers/index.ts
 
 ```ts
 import articlesController from "./article.controller";
@@ -362,7 +362,7 @@ export { articlesController };
 
 ```
 
-## 3. routes/article.route
+### 3. routes/article.route
 
 ```ts
 import { FastifyInstance } from "fastify"; // import FastifyInstance
@@ -380,9 +380,9 @@ const articleRouter = async (app: FastifyInstance) => {
 export default articleRouter;
 ```
 
-# [Node.js fastify EP.6 Services](https://youtube.com/@billowdev)
+## [Node.js fastify EP.6 Services](https://youtube.com/@billowdev)
 
-## 1. services/article.service.ts
+### 1. services/article.service.ts
 
 ```ts
 export const getArticles = () => {
@@ -400,14 +400,14 @@ export default {
 }
 ```
 
-## 2. services/index.ts
+### 2. services/index.ts
 
 ```ts
 import articleService from "./article.service";
 export { articleService };
 ```
 
-## 3. controllers/article.controller
+### 3. controllers/article.controller
 
 ```ts
 import { articleService } from "../services";
@@ -421,33 +421,33 @@ export default {
 }
 ```
 
-# [Node.js fastify EP.7 MySQL Database](https://youtube.com/@billowdev)
+## [Node.js fastify EP.7 MySQL Database](https://youtube.com/@billowdev)
 
-## 1. install laragon following this -> [Youtube](https://youtube.com/@billowdev)
+### 1. install laragon following this -> [Youtube](https://youtube.com/@billowdev)
 
-## 2. start server laragon
+### 2. start server laragon
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/laragon-start.png" alt="laragon-start">
 
-## 2. open mysql 
+### 2. open mysql 
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/mysql-open.png" alt="mysql-open">
 
-## 3. click on database
+### 3. click on database
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/click-database.png" alt="click-database">
 
-## 4. create database
+### 4. create database
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/create-database.png" alt="create-database">
 
-## 5. node_fastify_db
+### 5. node_fastify_db
 
 <img src="https://raw.githubusercontent.com/billowdev/nodejs-ts-fastify-mvc-starter-template/main/README/images/ep7/node_fastify_db.png" alt="node_fastify_db">
 
-# [Node.js fastify EP.8 Sequelize](https://youtube.com/@billowdev)
+## [Node.js fastify EP.8 Sequelize](https://youtube.com/@billowdev)
 
-## 1. install sequelize dotenv and mysql2
+### 1. install sequelize dotenv and mysql2
 - for sequelize is orm using to interact with database that base on model that our declare
 - for dotenv is package for using environment or .env file that our put variable to keep the secret thing like a username password of database
 - for mysql2 is require when our use MySQL if using postgres will be pg and pg-hstore etc. for another database should back to document of that software
@@ -460,7 +460,7 @@ or
 yarn add sequelize dotenv and mysql2
 ```
 
-## 2. env file
+### 2. env file
 the username of mysql laragon by default that is root and password=""
 i seperate that env for config database in difference env -> dev, prod, test
 
@@ -486,9 +486,10 @@ DB_DIALECT=mysql
 
 ```
 
-## 2. config file and db config file
+### 2. config file and db config file
 the first of all we will import dotenv for using .env file
 then we create config for create config variable that get value from .env file
+
 ```ts
 import dotenv from "dotenv";
 dotenv.config();
@@ -523,7 +524,7 @@ export default config;
 
 ```
 
-### config/db.config
+### 3. config/db.config
 
 ```ts
 import config from "./config"; // this is important!
@@ -553,11 +554,12 @@ module.exports = {
 };
 ```
 
-## 3. models
+### 4. models
 
-### 3.1 create the types folders
+#### 4.1 create the types folders
 
-### 3.2 types/articles/article.model.types.ts
+#### 4.2 types/articles/article.model.types.ts
+
 ```ts
 export interface ArticleAttributes {
   id?: string;
@@ -570,20 +572,20 @@ export interface ArticleAttributes {
 }
 ```
 
-### 3.3 create "models" folder
+#### 4.3 create "models" folder
 
 ```ts
 
 ```
 
 
-### 3.4 /models/article.model.ts
+#### 4.4 /models/article.model.ts
 
 
-# [Node.js fastify EP.9 Example Articles API](https://youtube.com/@billowdev)
+## [Node.js fastify EP.9 Example Articles API](https://youtube.com/@billowdev)
 
 
-# [Node.js fastify EP.10 auth middleware](https://youtube.com/@billowdev)
+## [Node.js fastify EP.10 auth middleware](https://youtube.com/@billowdev)
 
 
 <!-- =========================== -->
