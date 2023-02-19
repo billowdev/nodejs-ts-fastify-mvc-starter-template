@@ -453,11 +453,11 @@ export default {
 - for mysql2 is require when our use MySQL if using postgres will be pg and pg-hstore etc. for another database should back to document of that software
 
 ```bash
-npm install sequelize dotenv and mysql2
+npm install sequelize dotenv mysql2
 ```
 or
 ```
-yarn add sequelize dotenv and mysql2
+yarn add sequelize dotenv mysql2
 ```
 
 ### 2. env file
@@ -574,13 +574,143 @@ export interface ArticleAttributes {
 
 #### 4.3 create "models" folder
 
-```ts
+#### 4.4 models/index.ts
+code below in commonly that generate by sequelize-cli as models/index.js
 
+but for typescript i modify that get config from  "/../config/db.config.ts"
+
+```ts
+"use strict";
+
+const fs = require("fs");
+const path = require("path");
+const basename = path.basename(__filename);
+const Sequelize = require("sequelize");
+const env = process.env.NODE_ENV || "development";
+const config = require(__dirname + "/../config/db.config.ts")[env];
+const db: any = {};
+
+let sequelize: any;
+if (config.use_env_variable) {
+  sequelize = new Sequelize(process.env[config.use_env_variable], config);
+} else {
+  sequelize = new Sequelize(
+    config.database,
+    config.username,
+    config.password,
+    config
+  );
+}
+
+fs.readdirSync(__dirname)
+  .filter((file: string) => {
+    return (
+      file.indexOf(".") !== 0 && file !== basename && file.slice(-3) === ".ts"
+    );
+  })
+  .forEach((file: any) => {
+    const model = require(path.join(__dirname, file))(
+      sequelize,
+      Sequelize.DataTypes
+    );
+    db[model.name] = model;
+  });
+
+Object.keys(db).forEach((modelName) => {
+  if (db[modelName].associate) {
+    db[modelName].associate(db);
+  }
+});
+
+db.sequelize = sequelize;
+db.Sequelize = Sequelize;
+
+export default db;
 ```
 
 
 #### 4.4 /models/article.model.ts
+create the article.model.ts file and then models/index.ts will read this file for instance the model following that our declare
+such as 
 
+```ts
+"use strict";
+import * as Sequelize from "sequelize";
+import { Model, UUIDV4 } from "sequelize";
+import { ArticleAttributes } from "types/articles/article.model.types";
+
+module.exports = (sequelize: any, DataTypes: any) => {
+  class Article
+    extends Model<ArticleAttributes>
+    implements ArticleAttributes
+  {
+    /**
+     * Helper method for defining associations.
+     * This method is not a part of Sequelize lifecycle.
+     * The `models/index` file will call this method automatically.
+     */
+    id!: string;
+    title!: string;
+    text!: string;
+    type!: string;
+    static associate(models: any) {
+      // define association here
+
+    }
+  }
+  Article.init(
+    {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: UUIDV4,
+        allowNull: false,
+        primaryKey: true,
+      },
+      title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
+      text: {
+        type: DataTypes.STRING(500),
+      },
+    },
+    {
+      sequelize,
+      modelName: "Article",
+    }
+  );
+  return Article;
+};
+```
+
+#### 4.5 change index.ts of application
+change of file : 
+- import database and config file
+- get PORT From config file
+- sync database or using sequelize
+
+
+```ts
+import App from "./src/app";
+import db from "./src/models"
+import config from "./src/config/config"
+
+const app = App({
+	logger: true
+})
+const PORT: string | number = config.port
+
+db.sequelize.sync().then(() => {
+app.listen({port:Number(PORT)}, (err) => {
+	if (err) {
+		app.log.error(err);
+		process.exit(1)
+	}
+	app.log.info(`SERVE ON ${PORT}`)
+})
+})
+
+```
 
 ## [Node.js fastify EP.9 Example Articles API](https://youtube.com/@billowdev)
 
